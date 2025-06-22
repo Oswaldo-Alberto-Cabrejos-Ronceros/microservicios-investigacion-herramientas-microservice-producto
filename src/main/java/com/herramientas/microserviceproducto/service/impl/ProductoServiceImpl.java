@@ -1,7 +1,9 @@
 package com.herramientas.microserviceproducto.service.impl;
 
+import com.herramientas.microserviceproducto.configuration.RestTemplateConfig;
 import com.herramientas.microserviceproducto.dao.IProductoDao;
 import com.herramientas.microserviceproducto.entity.Producto;
+import com.herramientas.microserviceproducto.models.Categoria;
 import com.herramientas.microserviceproducto.service.IProductoService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,9 +14,11 @@ import java.util.List;
 public class ProductoServiceImpl implements IProductoService {
 
     private final IProductoDao productoDao;
+    private final RestTemplateConfig restTemplateConfig;
 
-    public ProductoServiceImpl(IProductoDao productoDao) {
+    public ProductoServiceImpl(IProductoDao productoDao, RestTemplateConfig restTemplateConfig) {
         this.productoDao = productoDao;
+        this.restTemplateConfig = restTemplateConfig;
     }
 
     @Transactional(readOnly = true)
@@ -32,6 +36,10 @@ public class ProductoServiceImpl implements IProductoService {
     @Transactional
     @Override
     public Producto createProduct(Producto producto) {
+        Categoria categoria = restTemplateConfig.restTemplate().getForObject("http://localhost:8001/api/categoria/" + producto.getCategoryId(), Categoria.class);
+        if (categoria == null) {
+            throw new RuntimeException("Categoria no encontrada");
+        }
         return productoDao.save(producto);
     }
 
