@@ -28,6 +28,11 @@ public class ProductoController {
         return ResponseEntity.ok(productoService.getAllProducts());
     }
 
+    @GetMapping("/categoria/{id}")
+    public ResponseEntity<List<Producto>> getProductsByCategoria(@PathVariable Long id){
+        return ResponseEntity.ok(productoService.getAllProductsByCategory(id));
+    }
+
     @PostMapping
     public ResponseEntity<Producto> createProduct(@RequestBody Producto producto){
         return ResponseEntity.status(HttpStatus.CREATED).body(productoService.createProduct(producto));

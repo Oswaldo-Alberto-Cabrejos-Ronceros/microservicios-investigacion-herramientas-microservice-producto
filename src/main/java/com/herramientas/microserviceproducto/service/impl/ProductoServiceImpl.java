@@ -33,6 +33,15 @@ public class ProductoServiceImpl implements IProductoService {
         return productoDao.findAll();
     }
 
+    @Override
+    public List<Producto> getAllProductsByCategory(Long categoryId) {
+        Categoria categoria = restTemplateConfig.restTemplate().getForObject("http://localhost:8001/api/categoria/" + categoryId, Categoria.class);
+        if (categoria == null) {
+            throw new RuntimeException("Categoria no encontrada");
+        }
+        return productoDao.findAllByCategoryId(categoria.getId());
+    }
+
     @Transactional
     @Override
     public Producto createProduct(Producto producto) {
