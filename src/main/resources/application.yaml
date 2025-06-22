@@ -1,40 +1,9 @@
-server:
-  port: 8002
 spring:
   application:
-    name:
-      microservice-producto
-  datasource:
-    url:
-      jdbc:postgresql://localhost:5432/microservice_producto_db
-    username:
-      postgres
-    password:
-      abcd1234
-    driver-class-name:
-      org.postgresql.Driver
-  jpa:
-    hibernate:
-      ddl-auto:
-        update
-    show-sql:
-      true
-    properties:
-      hibernate:
-        format_sql:
-          true
+    name: microservice-producto
+  config:
+    import: "configserver:"
   cloud:
     config:
-      enabled: false
-
-springdoc:
-  api-docs:
-    enabled:
-      true
-    path:
-      /v3/api-docs
-  swagger-ui:
-    enabled:
-      true
-    path:
-      /swagger-ui.html
+      enabled: true
+      uri: http://localhost:8081
