@@ -35,7 +35,7 @@ public class ProductoServiceImpl implements IProductoService {
 
     @Override
     public List<Producto> getAllProductsByCategory(Long categoryId) {
-        Categoria categoria = restTemplateConfig.restTemplate().getForObject("http://localhost:8001/api/categoria/" + categoryId, Categoria.class);
+        Categoria categoria = restTemplateConfig.restTemplate().getForObject("http://localhost:8080/categoria/" + categoryId, Categoria.class);
         if (categoria == null) {
             throw new RuntimeException("Categoria no encontrada");
         }
@@ -45,7 +45,7 @@ public class ProductoServiceImpl implements IProductoService {
     @Transactional
     @Override
     public Producto createProduct(Producto producto) {
-        Categoria categoria = restTemplateConfig.restTemplate().getForObject("http://localhost:8001/api/categoria/" + producto.getCategoryId(), Categoria.class);
+        Categoria categoria = restTemplateConfig.restTemplate().getForObject("http://localhost:8080/categoria/" + producto.getCategoryId(), Categoria.class);
         if (categoria == null) {
             throw new RuntimeException("Categoria no encontrada");
         }
